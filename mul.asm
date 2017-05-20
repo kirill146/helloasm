@@ -6,9 +6,12 @@ _start:
                 sub             rsp, 2 * 128 * 8
                 mov             rdi, rsp
                 mov             rcx, 128
+                mov         r12, 1
                 call            read_long
+               ; mov        [rdi], r12
                 lea             rdi, [rsp + rcx * 8]
                 call            read_long
+               ; mov        [rdi], r12
                 mov             rsi, rdi
                 mov             rdi, rsp
                 call            mul_long_long
@@ -40,6 +43,8 @@ copy:
 ;    product is written to rdi
 mul_long_long:
                 mov             rdx, rdi
+                mov             r10, rcx
+                mov             r11, rdi
                 mov             r9, rcx
                 shl             r9, 4
                 sub             rsp, r9                     ; rsp' == rsp - rcx * 8 * 2
@@ -48,8 +53,6 @@ mul_long_long:
 
                 lea             rdi, [rsp + rcx * 8]
                 mov             rbp, rsp
-                mov             r10, rcx
-                mov             r11, rdi
 .loop:
                 call            copy
                 mov             rbx, [rdx]
